@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, memo } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { View } from '@/types';
 import { supabase } from '@/lib/supabase';
 import Sidebar from '@/components/Sidebar';
@@ -13,17 +13,17 @@ function App() {
   const [view, setView] = useState<View>('chat');
   const [counts, setCounts] = useState({ memory: 0, connected: 0 });
 
-  // Load counts ONCE on mount only — not on every view change
   useEffect(() => {
     let cancelled = false;
     const load = async () => {
-      const [mem, integ] = await Promise.all([
-        supabase.from('memories').select('*', { count: 'exact', head: true }),
-        supabase.from('integrations').select('*', { count: 'exact', head: true }).eq('connected', true),
-      ]);
-      if (!cancelled) {
-        // Single setState = single re-render
-        setCounts({ memory: mem.count || 0, connected: integ.count || 0 });
+      try {
+        const [mem, integ] = await Promise.all([
+          supabase.from('memories').select('*', { count: 'exact', head: true }),
+          supabase.from('integrations').select('*', { count: 'exact', head: true }).eq('connected', true),
+        ]);
+        if (!cancelled) setCounts({ memory: mem.count ?? 0, connected: integ.count ?? 0 });
+      } catch {
+        // non-fatal — counts stay 0
       }
     };
     load();
@@ -31,11 +31,15 @@ function App() {
   }, []);
 
   const refreshCounts = useCallback(async () => {
-    const [mem, integ] = await Promise.all([
-      supabase.from('memories').select('*', { count: 'exact', head: true }),
-      supabase.from('integrations').select('*', { count: 'exact', head: true }).eq('connected', true),
-    ]);
-    setCounts({ memory: mem.count || 0, connected: integ.count || 0 });
+    try {
+      const [mem, integ] = await Promise.all([
+        supabase.from('memories').select('*', { count: 'exact', head: true }),
+        supabase.from('integrations').select('*', { count: 'exact', head: true }).eq('connected', true),
+      ]);
+      setCounts({ memory: mem.count ?? 0, connected: integ.count ?? 0 });
+    } catch {
+      // non-fatal
+    }
   }, []);
 
   return (
@@ -46,27 +50,13 @@ function App() {
         memoryCount={counts.memory}
         connectedCount={counts.connected}
       />
-      {/*
-        Use display:none instead of conditional rendering to avoid full
-        unmount/remount on every tab switch — prevents flickering.
-      */}
-      <div className="flex-1 flex overflow-hidden" style={{ display: view === 'chat' ? 'flex' : 'none' }}>
-        <ChatView />
-      </div>
-      <div className="flex-1 flex overflow-hidden" style={{ display: view === 'memory' ? 'flex' : 'none' }}>
-        <MemoryView onUpdate={refreshCounts} />
-      </div>
-      <div className="flex-1 flex overflow-hidden" style={{ display: view === 'dashboard' ? 'flex' : 'none' }}>
-        <Dashboard onView={setView} />
-      </div>
-      <div className="flex-1 flex overflow-hidden" style={{ display: view === 'integrations' ? 'flex' : 'none' }}>
-        <IntegrationsView onUpdate={refreshCounts} />
-      </div>
-      <div className="flex-1 flex overflow-hidden" style={{ display: view === 'personality' ? 'flex' : 'none' }}>
-        <PersonalityView />
-      </div>
-      <div className="flex-1 flex overflow-hidden" style={{ display: view === 'skills' ? 'flex' : 'none' }}>
-        <SkillsView />
+      <div className="flex-1 overflow-hidden flex">
+        {view === 'chat' && <ChatView />}
+        {view === 'memory' && <MemoryView onUpdate={refreshCounts} />}
+        {view === 'dashboard' && <Dashboard onView={setView} />}
+        {view === 'integrations' && <IntegrationsView onUpdate={refreshCounts} />}
+        {view === 'personality' && <PersonalityView />}
+        {view === 'skills' && <SkillsView />}
       </div>
     </div>
   );

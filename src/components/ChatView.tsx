@@ -26,23 +26,27 @@ export default function ChatView() {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const loadConversations = useCallback(async () => {
-    const { data } = await supabase
-      .from('conversations')
-      .select('*')
-      .order('updated_at', { ascending: false });
-    if (data && data.length > 0) {
-      setConversations(data);
-      setActiveConvId(data[0].id);
-    } else {
-      const { data: newConv } = await supabase
+    try {
+      const { data } = await supabase
         .from('conversations')
-        .insert({ title: 'New conversation' })
-        .select()
-        .single();
-      if (newConv) {
-        setConversations([newConv]);
-        setActiveConvId(newConv.id);
+        .select('*')
+        .order('updated_at', { ascending: false });
+      if (data && data.length > 0) {
+        setConversations(data);
+        setActiveConvId(data[0].id);
+      } else {
+        const { data: newConv } = await supabase
+          .from('conversations')
+          .insert({ title: 'New conversation' })
+          .select()
+          .single();
+        if (newConv) {
+          setConversations([newConv]);
+          setActiveConvId(newConv.id);
+        }
       }
+    } catch {
+      // non-fatal
     }
     setLoading(false);
   }, []);
@@ -52,12 +56,16 @@ export default function ChatView() {
   }, [loadConversations]);
 
   const loadMessages = useCallback(async (convId: string) => {
-    const { data } = await supabase
-      .from('messages')
-      .select('*')
-      .eq('conversation_id', convId)
-      .order('created_at', { ascending: true });
-    setMessages(data || []);
+    try {
+      const { data } = await supabase
+        .from('messages')
+        .select('*')
+        .eq('conversation_id', convId)
+        .order('created_at', { ascending: true });
+      setMessages(data || []);
+    } catch {
+      setMessages([]);
+    }
   }, []);
 
   useEffect(() => {
