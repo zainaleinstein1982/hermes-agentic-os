@@ -1,38 +1,57 @@
-export type View = 'mission-control' | 'agent' | 'pipeline' | 'kanban' | 'sessions';
-export type AgentTab = 'chat' | 'talk' | 'hermes-jarvis' | 'oracle' | 'studio' | 'sessions' | 'workspace';
+export type View = 'chat' | 'memory' | 'dashboard' | 'integrations' | 'personality' | 'skills';
 
-export interface Agent {
+export interface Memory {
   id: string;
-  name: string;
-  color: string;
-  model: string;
-  status: 'online' | 'idle' | 'offline';
-  description: string;
-  stats: { likes: number; comments: number; shares: number };
-}
-
-export interface Message {
-  id: string;
-  role: 'user' | 'agent';
   content: string;
-  timestamp: string;
-  agentName?: string;
+  category: string;
+  tags: string[];
+  importance: number;
+  source: string | null;
+  created_at: string;
+  updated_at: string;
 }
 
-export interface KanbanTask {
+export interface Conversation {
   id: string;
   title: string;
-  description: string;
-  agent: string;
-  priority: 'low' | 'medium' | 'high';
-  status: 'backlog' | 'in-progress' | 'review' | 'done';
+  summary: string | null;
+  created_at: string;
+  updated_at: string;
 }
 
-export interface Session {
+export interface ChatMessage {
+  id: string;
+  conversation_id: string;
+  role: 'user' | 'assistant';
+  content: string;
+  created_at: string;
+}
+
+export interface Integration {
   id: string;
   name: string;
-  agent: string;
-  messages: number;
-  lastActive: string;
-  preview: string;
+  type: string;
+  icon: string;
+  connected: boolean;
+  status: string;
+  last_sync: string | null;
+  config: Record<string, unknown>;
+}
+
+export interface Skill {
+  id: string;
+  name: string;
+  description: string | null;
+  category: string;
+  enabled: boolean;
+  icon: string;
+}
+
+export interface MemoryNode {
+  id: string;
+  label: string;
+  category: string;
+  x: number;
+  y: number;
+  connections: string[];
 }
