@@ -40,7 +40,7 @@ const ICON_COLORS: Record<string, string> = {
   dropbox: '#7c8aff',
 };
 
-export default function IntegrationsView() {
+export default function IntegrationsView({ onUpdate }: { onUpdate?: () => void }) {
   const [integrations, setIntegrations] = useState<Integration[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -74,6 +74,7 @@ export default function IntegrationsView() {
           : i
       )
     );
+    onUpdate?.();
   };
 
   const connected = integrations.filter((i) => i.connected);

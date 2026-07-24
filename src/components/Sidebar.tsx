@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { View } from '@/types';
 import {
   MessageCircle,
@@ -36,7 +37,7 @@ const NAV: { id: View; label: string; icon: typeof MessageCircle; badge?: (p: Pr
   { id: 'skills', label: 'Skills', icon: Zap },
 ];
 
-export default function Sidebar({ view, onView, memoryCount, connectedCount }: Props) {
+function SidebarInner({ view, onView, memoryCount, connectedCount }: Props) {
   return (
     <aside className="w-60 shrink-0 h-full flex flex-col border-r border-white/[0.05] bg-[#0a0b0f]">
       {/* Logo */}
@@ -117,3 +118,5 @@ export default function Sidebar({ view, onView, memoryCount, connectedCount }: P
     </aside>
   );
 }
+
+export default memo(SidebarInner);

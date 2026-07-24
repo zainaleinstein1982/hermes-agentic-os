@@ -14,7 +14,7 @@ import {
   Sparkles,
 } from 'lucide-react';
 
-export default function MemoryView() {
+export default function MemoryView({ onUpdate }: { onUpdate?: () => void }) {
   const [memories, setMemories] = useState<Memory[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
@@ -49,11 +49,13 @@ export default function MemoryView() {
     setNewMemory('');
     setShowAdd(false);
     loadMemories();
+    onUpdate?.();
   };
 
   const deleteMemory = async (id: string) => {
     await supabase.from('memories').delete().eq('id', id);
     setMemories((m) => m.filter((mem) => mem.id !== id));
+    onUpdate?.();
   };
 
   const categories = ['all', ...Array.from(new Set(memories.map((m) => m.category)))];

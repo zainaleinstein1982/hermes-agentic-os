@@ -7,6 +7,10 @@ interface Props {
 
 export default function AshOrb({ active = false, size = 200 }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  // Track active in a ref so the animation loop reads the latest value
+  // without needing to restart the requestAnimationFrame loop.
+  const activeRef = useRef(active);
+  activeRef.current = active;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -20,13 +24,14 @@ export default function AshOrb({ active = false, size = 200 }: Props) {
     let raf = 0;
 
     const draw = () => {
+      const a = activeRef.current;
       ctx.clearRect(0, 0, W, H);
       t += 0.012;
 
       // Outer aura
       const aura = ctx.createRadialGradient(cx, cy, 0, cx, cy, W * 0.48);
-      aura.addColorStop(0, `rgba(124,138,255,${active ? 0.2 : 0.1})`);
-      aura.addColorStop(0.4, `rgba(176,138,255,${active ? 0.08 : 0.04})`);
+      aura.addColorStop(0, `rgba(124,138,255,${a ? 0.2 : 0.1})`);
+      aura.addColorStop(0.4, `rgba(176,138,255,${a ? 0.08 : 0.04})`);
       aura.addColorStop(1, 'rgba(0,0,0,0)');
       ctx.fillStyle = aura;
       ctx.beginPath();
@@ -59,15 +64,15 @@ export default function AshOrb({ active = false, size = 200 }: Props) {
         const r = W * 0.36;
         const px = cx + Math.cos(angle) * r;
         const py = cy + Math.sin(angle) * r;
-        const pSize = active ? 2.5 + Math.sin(t * 2 + i) * 1.5 : 1.5;
-        ctx.fillStyle = `rgba(176,138,255,${active ? 0.8 : 0.4})`;
+        const pSize = a ? 2.5 + Math.sin(t * 2 + i) * 1.5 : 1.5;
+        ctx.fillStyle = `rgba(176,138,255,${a ? 0.8 : 0.4})`;
         ctx.beginPath();
         ctx.arc(px, py, pSize, 0, Math.PI * 2);
         ctx.fill();
       }
 
       // Waveform arc (when active)
-      if (active) {
+      if (a) {
         const numBars = 64;
         for (let i = 0; i < numBars; i++) {
           const angle = (i / numBars) * Math.PI * 2 - Math.PI / 2;
@@ -86,7 +91,7 @@ export default function AshOrb({ active = false, size = 200 }: Props) {
       }
 
       // Core — soft breathing glow
-      const coreR = (active ? 14 : 10) + Math.sin(t * 2) * (active ? 4 : 2);
+      const coreR = (a ? 14 : 10) + Math.sin(t * 2) * (a ? 4 : 2);
       const core = ctx.createRadialGradient(cx, cy, 0, cx, cy, coreR * 3);
       core.addColorStop(0, 'rgba(255,255,255,0.95)');
       core.addColorStop(0.2, 'rgba(176,138,255,0.8)');
@@ -108,7 +113,8 @@ export default function AshOrb({ active = false, size = 200 }: Props) {
 
     raf = requestAnimationFrame(draw);
     return () => cancelAnimationFrame(raf);
-  }, [active]);
+    // Empty dep array — animation loop starts ONCE on mount and never restarts
+  }, []);
 
   return <canvas ref={canvasRef} width={size} height={size} className="block" />;
 }
