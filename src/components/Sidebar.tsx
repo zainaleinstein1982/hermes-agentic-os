@@ -48,7 +48,7 @@ function SidebarInner({ view, onView, memoryCount, connectedCount }: Props) {
           <div className="w-3 h-3 rounded-full bg-gradient-to-br from-[#7c8aff] to-[#b08aff] animate-orb-breathe" style={{ boxShadow: '0 0 10px rgba(124,138,255,0.6)' }} />
         </div>
         <div className="flex flex-col leading-none">
-          <span className="text-white font-semibold text-sm tracking-tight">Ash</span>
+          <span className="text-white font-semibold text-sm tracking-tight">Asih Winarti</span>
           <span className="text-[9px] text-[#4a5068] font-mono tracking-widest">PERSONAL INTELLIGENCE</span>
         </div>
       </div>

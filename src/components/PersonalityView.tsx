@@ -22,10 +22,10 @@ export default function PersonalityView() {
     directness: 80,
   });
 
-  const [name, setName] = useState('Ash');
+  const [name, setName] = useState('Asih Winarti');
   const [pronouns, setPronouns] = useState('they/them');
   const [systemPrompt, setSystemPrompt] = useState(
-    'You are Ash, a personal intelligence assistant. You learn the user\'s preferences over time and proactively handle tasks they shouldn\'t be doing themselves. You communicate concisely and directly, without jargon. You remember everything that matters.'
+    'You are Asih Winarti, a personal intelligence assistant. You learn the user\'s preferences over time and proactively handle tasks they shouldn\'t be doing themselves. You communicate concisely and directly, without jargon. You remember everything that matters.'
   );
 
   return (

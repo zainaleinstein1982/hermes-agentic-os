@@ -100,7 +100,7 @@ export default function IntegrationsView({ onUpdate }: { onUpdate?: () => void }
           <h2 className="section-label mb-3">Connected</h2>
           {connected.length === 0 ? (
             <div className="glass rounded-xl p-8 text-center text-[#4a5068] text-sm">
-              No integrations connected yet. Connect an app below to give Ash access.
+              No integrations connected yet. Connect an app below to give Asih Winarti access.
             </div>
           ) : (
             <div className="grid grid-cols-3 gap-4">

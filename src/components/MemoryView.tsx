@@ -100,7 +100,7 @@ export default function MemoryView({ onUpdate }: { onUpdate?: () => void }) {
           <div className="absolute top-4 left-4 z-10">
             <div className="section-label mb-2">Knowledge Graph</div>
             <div className="text-[11px] text-[#4a5068] max-w-[200px]">
-              Visual map of everything Ash has learned about you.
+              Visual map of everything Asih Winarti has learned about you.
             </div>
           </div>
           <div className="absolute inset-0 flex items-center justify-center">
@@ -193,7 +193,7 @@ export default function MemoryView({ onUpdate }: { onUpdate?: () => void }) {
               <textarea
                 value={newMemory}
                 onChange={(e) => setNewMemory(e.target.value)}
-                placeholder="What should Ash remember?"
+                placeholder="What should Asih Winarti remember?"
                 className="w-full glass rounded-lg px-3 py-2 text-sm text-white placeholder:text-[#4a5068] outline-none resize-none focus:border-[#7c8aff]/30"
                 rows={3}
                 autoFocus
