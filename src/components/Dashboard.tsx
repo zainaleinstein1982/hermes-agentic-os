@@ -77,7 +77,7 @@ export default function Dashboard({ onView }: Props) {
             </div>
             <h2 className="text-xl text-white font-semibold mb-2">Good morning, Alex</h2>
             <p className="text-sm text-[#7e85a0] leading-relaxed max-w-md mb-4">
-              Ash has been working while you slept. 47 emails triaged, 3 flagged for your input.
+              Asih Winarti has been working while you slept. 47 emails triaged, 3 flagged for your input.
               Your 2pm meeting is prepped. You're in peak hours — I'd tackle the PR review first.
             </p>
             <div className="flex items-center gap-3">
@@ -95,7 +95,7 @@ export default function Dashboard({ onView }: Props) {
           <div className="glass rounded-2xl p-6 flex flex-col items-center justify-center">
             <AshOrb active={true} size={140} />
             <div className="text-center mt-2">
-              <div className="text-sm text-white font-medium">Ash</div>
+              <div className="text-sm text-white font-medium">Asih Winarti</div>
               <div className="text-[10px] text-[#5ce8a3] flex items-center justify-center gap-1 mt-0.5">
                 <span className="w-1 h-1 rounded-full dot-on" /> Active & learning
               </div>

@@ -194,7 +194,7 @@ export default function ChatView() {
             <Sparkles size={14} className="text-[#7c8aff]" />
           </div>
           <div>
-            <h2 className="text-white text-sm font-medium">Ash</h2>
+            <h2 className="text-white text-sm font-medium">Asih Winarti</h2>
             <span className="text-[10px] text-[#5ce8a3] flex items-center gap-1">
               <span className="w-1 h-1 rounded-full dot-on" /> Online
             </span>
@@ -263,7 +263,7 @@ export default function ChatView() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && send()}
-              placeholder="Ask Ash anything..."
+              placeholder="Ask Asih Winarti anything..."
               className="flex-1 bg-transparent text-sm text-white placeholder:text-[#4a5068] outline-none"
             />
             <button className="text-[#4a5068] hover:text-[#7c8aff] transition-colors">
@@ -277,7 +277,7 @@ export default function ChatView() {
             </button>
           </div>
           <div className="flex items-center justify-center gap-1 mt-2 text-[10px] text-[#4a5068]">
-            <Brain size={10} /> Ash remembers your preferences and learns over time
+            <Brain size={10} /> Asih Winarti remembers your preferences and learns over time
           </div>
         </div>
       </div>
@@ -293,7 +293,7 @@ function WelcomeScreen({ onPrompt }: { onPrompt: (p: string) => void }) {
       </div>
       <div className="text-center">
         <h1 className="text-2xl font-semibold text-white mb-2">
-          Hi, I'm <span className="text-gradient">Ash</span>
+          Hi, I'm <span className="text-gradient">Asih Winarti</span>
         </h1>
         <p className="text-[#7e85a0] text-sm max-w-md">
           Your personal intelligence assistant. I learn your preferences, remember what matters,
